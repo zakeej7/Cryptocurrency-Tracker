@@ -3,11 +3,14 @@ import com.jfoenix.controls.JFXTabPane;
 import javafx.beans.binding.DoubleExpression;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
@@ -30,10 +33,19 @@ public class Controller
 
     private String[] currencies = {"GBP", "EUR", "AUD", "JPY", "CNY", "SAR" };
 
+    private ObservableList<String> cryptos = FXCollections.observableArrayList(
+            "BTC - Bitcoin", "LTC - Litecoin", "TRX - Tron");
+
+    private FilteredList<String> filteredList = new FilteredList<>(cryptos);
+
     // Graph Done
     private boolean dayDone = false;
     private boolean monthDone = false;
     private boolean allTimeDone = false;
+
+    // Listview
+    @FXML private ListView myListView;
+    @FXML private TextField searchCrypto;
 
     // Main tabs
     @FXML private JFXTabPane mainTabPane;
@@ -115,6 +127,17 @@ public class Controller
 
             updateChart(temp, false);
         });
+
+        searchCrypto.textProperty().addListener((observable, oldValue, newValue) ->  {
+            String filter = searchCrypto.getText();
+            if (filter == null || filter.length() == 0) {
+                filteredList.setPredicate(s -> true);
+            } else {
+                filteredList.setPredicate(s -> s.toLowerCase().contains(filter.toLowerCase()));
+            }
+        });
+
+        myListView.setItems(filteredList);
     }
 
 
