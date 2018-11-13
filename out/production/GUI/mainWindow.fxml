@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<JFXTabPane fx:id="mainTabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+    <tabs>
+        <Tab id="cryptoTab" closable="false" text="Cryptocurrency">
+            <content>
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                    <top>
+                        <SplitPane dividerPositions="0.2625418060200669" prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                            <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="nameTicker" layoutX="14.0" layoutY="9.0" text="Bitcoin (BTC)">
+                                 <font>
+                                    <Font name="Arial" size="30.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                    <children>
+                              <ImageView fitHeight="45.0" fitWidth="47.0" layoutX="798.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="37.0">
+                                 <image>
+                                    <Image url="@res/img/refresh.png" />
+                                 </image>
+                              </ImageView>
+                              <JFXButton id="refreshButton" fx:id="refreshButton" layoutX="797.0" layoutY="4.0" minWidth="-Infinity" onAction="#refreshApp" prefHeight="46.0" prefWidth="46.0" ripplerFill="BLACK" text=" " AnchorPane.rightAnchor="37.0" />
+                              <Label fx:id="currentPrice" layoutX="14.0" layoutY="13.0" text="\$6758.78">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="dayChanges" layoutX="126.0" layoutY="13.0" text="+6.78 (+0.56 %)">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lastUpdate" layoutX="594.0" layoutY="20.0" text="As of 4:21pm 10/9/18" AnchorPane.rightAnchor="168.0">
+                                 <font>
+                                    <Font name="Franklin Gothic Medium Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
+                    </top>
+                    <left>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+                            <items>
+                                <TitledPane collapsible="false" text="Supported Crypto">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                    <BorderPane.margin>
+                                        <Insets />
+                                    </BorderPane.margin>
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                                    <content>
+                                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                            <children>
+                                                <Text fill="#4731c6" layoutX="15.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="More to be added soon!">
+                                                    <font>
+                                                        <Font name="Arial" size="16.0" />
+                                                    </font>
+                                                </Text>
+                                                <Hyperlink fx:id="btc" layoutX="52.0" layoutY="14.0" onAction="#switchCrypto" text="Bitcoin (BTC)">
+                                                    <font>
+                                                        <Font name="Arial" size="14.0" />
+                                                    </font>
+                                                    <padding>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                    </padding>
+                                                </Hyperlink>
+                                                <Hyperlink fx:id="ltc" layoutX="50.0" layoutY="42.0" onAction="#switchCrypto" text="Litecoin (LTC)">
+                                                    <font>
+                                                        <Font name="Arial" size="14.0" />
+                                                    </font>
+                                                    <padding>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                    </padding>
+                                                </Hyperlink>
+                                            </children>
+                                        </Pane>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="News Articles">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                           <content>
+                              <VBox prefHeight="250.0" prefWidth="200.0">
+                                 <children>
+                                    <Hyperlink fx:id="news1" onAction="#openNewsArticle" prefHeight="50.0" prefWidth="172.0" text="Hyperlink" wrapText="true">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Hyperlink>
+                                    <Hyperlink fx:id="news2" onAction="#openNewsArticle" prefHeight="50.0" prefWidth="172.0" text="Hyperlink" wrapText="true">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Hyperlink>
+                                    <Hyperlink fx:id="news3" onAction="#openNewsArticle" prefHeight="50.0" prefWidth="190.0" text="Hyperlink">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Hyperlink>
+                                    <Hyperlink fx:id="news4" onAction="#openNewsArticle" prefHeight="50.0" prefWidth="190.0" text="Hyperlink" wrapText="true">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Hyperlink>
+                                    <Hyperlink fx:id="news5" onAction="#openNewsArticle" prefHeight="50.0" prefWidth="190.0" text="Hyperlink">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Hyperlink>
+                                 </children>
+                              </VBox>
+                           </content>
+                                </TitledPane>
+                            </items>
+                        </SplitPane>
+                    </left>
+                    <right>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+                            <items>
+                                <TitledPane text="Quick Information">
+                                    <content>
+                                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Text layoutX="12.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily High:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="12.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="12.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Volume:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="14.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bid:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="14.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ask:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="12.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily Low:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="45.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All prices in USD">
+                                       <font>
+                                          <Font name="Franklin Gothic Medium Italic" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="dailyHigh" layoutX="100.0" layoutY="11.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="dailyLow" layoutX="100.0" layoutY="35.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="last" layoutX="100.0" layoutY="60.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="volume" layoutX="100.0" layoutY="86.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bid" layoutX="100.0" layoutY="112.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="ask" layoutX="100.0" layoutY="136.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children></AnchorPane>
+                                    </content>
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                                </TitledPane>
+                        <TitledPane layoutX="10.0" layoutY="10.0" text="Converted Prices">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Text layoutX="12.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GBP:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="12.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AUD:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="12.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JPY:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="14.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNY:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="14.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SAR">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="12.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EUR:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="gbp" layoutX="100.0" layoutY="9.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="eur" layoutX="100.0" layoutY="35.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="aud" layoutX="100.0" layoutY="60.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="jpy" layoutX="100.0" layoutY="86.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="cny" layoutX="100.0" layoutY="112.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="sar" layoutX="100.0" layoutY="136.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </TitledPane>
+                            </items>
+                        </SplitPane>
+                    </right>
+               <center>
+                  <JFXTabPane fx:id="graphTabPane" BorderPane.alignment="CENTER">
+                     <tabs>
+                        <Tab text="24 Hours">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <StackedAreaChart fx:id="dayGraph" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <xAxis>
+                                        <NumberAxis fx:id="dayX" autoRanging="false" side="BOTTOM" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis fx:id="dayY" autoRanging="false" side="LEFT" />
+                                      </yAxis>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </StackedAreaChart>
+                                    <Label fx:id="dayFirstLabel" layoutX="49.0" layoutY="536.0" text="2010-07-17 00:00:00" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="50.0">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="daySecondLabel" layoutX="680.0" layoutY="536.0" text="2010-07-17 00:00:00" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Line endX="200.0" layoutX="380.0" layoutY="542.0" startX="-200.0" />
+                                    <Text layoutX="355.0" layoutY="535.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab text="1 Month">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <StackedAreaChart fx:id="monthGraph" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <xAxis>
+                                        <NumberAxis fx:id="monthX" autoRanging="false" side="BOTTOM" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis fx:id="monthY" autoRanging="false" side="LEFT" />
+                                      </yAxis>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </StackedAreaChart>
+                                    <Label fx:id="monthFirstLabel" layoutX="49.0" layoutY="536.0" text="2010-07-17 00:00:00" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="50.0">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="monthSecondLabel" layoutX="680.0" layoutY="536.0" text="2010-07-17 00:00:00" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Line endX="200.0" layoutX="380.0" layoutY="542.0" startX="-200.0" />
+                                    <Text layoutX="355.0" layoutY="535.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab text="All Time">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <StackedAreaChart fx:id="allTimeGraph" layoutX="91.0" layoutY="21.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <xAxis>
+                                        <NumberAxis fx:id="allTimeX" autoRanging="false" side="BOTTOM" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis fx:id="allTimeY" autoRanging="false" side="LEFT" />
+                                      </yAxis>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </StackedAreaChart>
+                                    <Label fx:id="allTimeFirstLabel" layoutX="49.0" layoutY="536.0" text="2010-07-17 00:00:00" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" />
+                                    <Label fx:id="allTimeSecondLabel" layoutX="680.0" layoutY="536.0" text="2018-10-11 00:00:00" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+                                    <Line endX="200.0" layoutX="380.0" layoutY="542.0" startX="-200.0" />
+                                    <Text layoutX="355.0" layoutY="535.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                     </tabs>
+                  </JFXTabPane>
+               </center>
+                </BorderPane>
+            </content>
+        </Tab>
+        <Tab id="stockTab" closable="false" text="Stocks">
+            <content>
+                <Pane prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <Text boundsType="LOGICAL_VERTICAL_CENTER" fill="#4731c6" layoutX="225.0" layoutY="372.0" rotate="-30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coming Soon!">
+                            <font>
+                                <Font name="Arial Black" size="100.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </Pane>
+            </content>
+        </Tab>
+    </tabs>
+</JFXTabPane>
