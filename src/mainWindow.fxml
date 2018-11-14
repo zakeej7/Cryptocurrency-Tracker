@@ -52,11 +52,12 @@
                                     <Font name="Arial" size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lastUpdate" layoutX="594.0" layoutY="20.0" text="As of 4:21pm 10/9/18" AnchorPane.rightAnchor="168.0">
+                              <Label fx:id="lastUpdate" layoutX="651.0" layoutY="20.0" text="As of 4:21pm 10/9/18" AnchorPane.rightAnchor="111.0">
                                  <font>
                                     <Font name="Franklin Gothic Medium Italic" size="12.0" />
                                  </font>
                               </Label>
+                              <ComboBox fx:id="currencyOptions" layoutX="458.0" layoutY="14.0" prefWidth="100.0" promptText="Currencies" visibleRowCount="7" AnchorPane.rightAnchor="272.0" />
                                     </children>
                                 </AnchorPane>
                             </items>
@@ -67,8 +68,13 @@
                             <items>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <TextField fx:id="searchCrypto" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="201.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-                              <ListView fx:id="myListView" layoutX="16.0" layoutY="68.0" prefHeight="218.0" prefWidth="200.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="50.0" />
+                              <TextField fx:id="searchCrypto" layoutX="14.0" layoutY="29.0" prefHeight="25.0" prefWidth="201.0" promptText="Ex: ETH, Ethereum..." AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+                              <ListView fx:id="myListView" layoutX="16.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="68.0" />
+                              <Text layoutX="16.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type to start filtering..." wrappingWidth="204.671875" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.328125" AnchorPane.topAnchor="4.515625">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                                 <TitledPane text="News Articles">
@@ -150,11 +156,6 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Text>
-                                    <Text layoutX="45.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All prices in USD">
-                                       <font>
-                                          <Font name="Franklin Gothic Medium Italic" size="12.0" />
-                                       </font>
-                                    </Text>
                                     <Label fx:id="dailyHigh" layoutX="100.0" layoutY="11.0" text="1000">
                                        <font>
                                           <Font name="Arial" size="16.0" />
@@ -196,9 +197,9 @@
                                 </TitledPane>
                         <TitledPane layoutX="10.0" layoutY="10.0" text="Converted Prices">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="204.0" prefWidth="200.0">
                                  <children>
-                                    <Text layoutX="12.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GBP:">
+                                    <Text layoutX="12.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GBP:">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
@@ -213,12 +214,12 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Text>
-                                    <Text layoutX="14.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNY:">
+                                    <Text layoutX="12.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNY:">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Text>
-                                    <Text layoutX="14.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SAR">
+                                    <Text layoutX="12.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SAR:">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
@@ -228,7 +229,7 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Text>
-                                    <Label fx:id="gbp" layoutX="100.0" layoutY="9.0" text="1000">
+                                    <Label fx:id="gbp" layoutX="100.0" layoutY="160.0" text="1000">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
@@ -254,6 +255,16 @@
                                        </font>
                                     </Label>
                                     <Label fx:id="sar" layoutX="100.0" layoutY="136.0" text="1000">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Text layoutX="12.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USD:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="usd" layoutX="100.0" layoutY="9.0" text="1000">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>

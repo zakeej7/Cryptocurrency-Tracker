@@ -1,8 +1,8 @@
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
-import javafx.beans.binding.DoubleExpression;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -13,12 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
-import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.CollationElementIterator;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,13 +26,15 @@ import java.util.List;
 // Handles all the GUI events
 public class Controller
 {
-    private Crypto bitCoinUS = new Crypto("BTCUSD");
-    private Crypto liteCoinUS = new Crypto("LTCUSD");
+    // Currencies and Cryptos
+    private String selectedCurrency;
+    private Crypto selectedCrypto;
 
-    private String[] currencies = {"GBP", "EUR", "AUD", "JPY", "CNY", "SAR" };
+    private String[] currencies = {"USD", "GBP", "EUR", "AUD", "JPY", "CNY", "SAR"};
 
     private ObservableList<String> cryptos = FXCollections.observableArrayList(
-            "BTC - Bitcoin", "LTC - Litecoin", "TRX - Tron");
+            "BTC - Bitcoin", "LTC - Litecoin", "BCH - Bitcoin Cash", "ETH - Ethereum",
+            "XRP - Ripple", "XMR - Monero");
 
     private FilteredList<String> filteredList = new FilteredList<>(cryptos);
 
@@ -73,6 +73,7 @@ public class Controller
     @FXML private Label jpy;
     @FXML private Label cny;
     @FXML private Label sar;
+    @FXML private Label usd;
 
     // Graph Stuff
     @FXML private NumberAxis dayX;
@@ -92,11 +93,6 @@ public class Controller
     @FXML private Label allTimeSecondLabel;
 
 
-
-    // Cryptos
-    public Hyperlink btc;
-    public Hyperlink ltc;
-
     // News
     @FXML private Hyperlink news1;
     @FXML private Hyperlink news2;
@@ -106,26 +102,14 @@ public class Controller
     private List<NewsData> newsList;
 
 
-    // Handles which Coin is currently selected
-    private String coinSelected = "Bitcoin (BTC)";
-
-
     // Load the application with data already in it
     // Setup listeners for tab switching
     public void initialize() {
-        updateApplication();
 
         graphTabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            Crypto temp;
-            if(coinSelected.contentEquals("Bitcoin (BTC)")) {
-                temp = bitCoinUS;
-            }
-            else {
-                temp = liteCoinUS;
-            }
-            temp.updateCrypto();
 
-            updateChart(temp, false);
+           selectedCrypto.updateCrypto();
+           updateChart(selectedCrypto, false);
         });
 
         searchCrypto.textProperty().addListener((observable, oldValue, newValue) ->  {
@@ -137,33 +121,49 @@ public class Controller
             }
         });
 
+        myListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(newValue == null) {
+                    return;
+                }
+                nameTicker.setText(newValue);
+                String crypto = newValue.substring(0,3) + "USD";
+                selectedCrypto = new Crypto(crypto);
+
+                dayDone = false;
+                monthDone = false;
+                allTimeDone = false;
+
+                updateApplication();
+            }
+        });
+
         myListView.setItems(filteredList);
+        myListView.getSelectionModel().select(3);
+        myListView.getFocusModel().focus(3);
+        myListView.scrollTo(3);
+
+
     }
 
 
     // Updates the GUI with new information
     public void updateApplication() {
 
-        Crypto temp;
-        if(coinSelected.contentEquals("Bitcoin (BTC)")) {
-            temp = bitCoinUS;
-        }
-        else {
-            temp = liteCoinUS;
-        }
-        temp.updateCrypto();
+        selectedCrypto.updateCrypto();
 
         DecimalFormat df = new DecimalFormat("#.00");
 
-        double high = temp.getHigh();
-        double low = temp.getLow();
-        double lastVal = temp.getLast();
-        double volumeVal = Double.parseDouble(df.format(temp.getVolume()));
-        double bidVal = temp.getBid();
-        double askVal = temp.getAsk();
+        double high = selectedCrypto.getHigh();
+        double low = selectedCrypto.getLow();
+        double lastVal = selectedCrypto.getLast();
+        double volumeVal = Double.parseDouble(df.format(selectedCrypto.getVolume()));
+        double bidVal = selectedCrypto.getBid();
+        double askVal = selectedCrypto.getAsk();
         double current = Double.parseDouble(df.format((bidVal + askVal) / 2));
-        DateData priceChanges = temp.getPriceChanges();
-        DateData percentChanges = temp.getPercentChanges();
+        DateData priceChanges = selectedCrypto.getPriceChanges();
+        DateData percentChanges = selectedCrypto.getPercentChanges();
         double valChange = Double.parseDouble(df.format(priceChanges.getDay()));
         double percentChange = Double.parseDouble(df.format(percentChanges.getDay()));
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -190,27 +190,27 @@ public class Controller
 
         lastUpdate.setText("As of " +  dtf.format(now));
 
-        double currencyVals[] = new double[6];
+        double currencyVals[] = new double[7];
 
         for(int i = 0; i < currencies.length; i++) {
-            currencyVals[i] = Double.parseDouble(df.format(temp.convert(currencies[i], current)));
+            currencyVals[i] = Double.parseDouble(df.format(selectedCrypto.convert(currencies[i], current)));
         }
 
         // All currencies updated
-        gbp.setText(Double.toString(currencyVals[0]));
-        eur.setText(Double.toString(currencyVals[1]));
-        aud.setText(Double.toString(currencyVals[2]));
-        jpy.setText(Double.toString(currencyVals[3]));
-        cny.setText(Double.toString(currencyVals[4]));
-        sar.setText(Double.toString(currencyVals[5]));
+        usd.setText(Double.toString(currencyVals[0]));
+        gbp.setText(Double.toString(currencyVals[1]));
+        eur.setText(Double.toString(currencyVals[2]));
+        aud.setText(Double.toString(currencyVals[3]));
+        jpy.setText(Double.toString(currencyVals[4]));
+        cny.setText(Double.toString(currencyVals[5]));
+        sar.setText(Double.toString(currencyVals[6]));
+
 
         // Update current chart
-        updateChart(temp, true);
+        updateChart(selectedCrypto, true);
 
         // Reshuffle news
-        updateNews(temp);
-
-
+        updateNews(selectedCrypto);
 
     }
 
@@ -367,23 +367,5 @@ public class Controller
         cur.getData().addAll(seriesCrypto);
         cur.setCreateSymbols(false);
         cur.setLegendVisible(false);
-    }
-
-    // Handles switching between bitcoin and litecoin
-    public void switchCrypto(ActionEvent actionEvent) {
-
-        Hyperlink temp = (Hyperlink) actionEvent.getSource();
-
-        if(temp.getText().contentEquals(coinSelected)) {
-            // Do nothing
-        }
-        else {
-            coinSelected = temp.getText();
-            nameTicker.setText(coinSelected);
-            dayDone = false;
-            monthDone = false;
-            allTimeDone = false;
-            updateApplication();
-        }
     }
 }
