@@ -1,5 +1,6 @@
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -30,6 +31,7 @@ public class Controller
     private String selectedCurrency;
     private String curCrypto;
     private Crypto selectedCrypto;
+    private int curCryptoIndex;
 
     // Currency Symbols
     public static final String GBP = "\u00A3";
@@ -44,7 +46,7 @@ public class Controller
 
     private ObservableList<String> cryptos = FXCollections.observableArrayList(
             "BTC - Bitcoin", "LTC - Litecoin", "BCH - Bitcoin Cash", "ETH - Ethereum",
-            "XRP - Ripple", "XMR - Monero");
+            "XRP - Ripple", "XMR - Monero", "ZEC - ZCash");
 
     private ObservableList<String> options = FXCollections.observableArrayList("USD", "GBP", "EUR", "AUD", "JPY", "CNY", "SAR");
 
@@ -142,6 +144,7 @@ public class Controller
                     return;
                 }
 
+                curCryptoIndex = myListView.getSelectionModel().getSelectedIndex();
                 curCrypto = newValue.substring(0,3);
                 nameTicker.setText(newValue);
                 String crypto = curCrypto + selectedCurrency;
@@ -176,22 +179,30 @@ public class Controller
             }
         });
 
-        curCrypto = "BTC";
-        selectedCurrency = "USD";
-
-
+        // Set Listview and Options Values
         myListView.setItems(filteredList);
-        myListView.getSelectionModel().select(0);
-
         currencyChoice.setItems(options);
-        currencyChoice.setValue("USD");
 
+        PersistentData p = new PersistentData();
 
+        if(p.getCrypto() != null) {
+            curCrypto = p.getCrypto();
+            selectedCurrency = p.getCurrency();
+            curCryptoIndex = p.getIndex();
 
+            myListView.getSelectionModel().select(curCryptoIndex);
+            currencyChoice.setValue(selectedCurrency);
+            graphTabPane.getSelectionModel().select(p.getTimePeriod());
+        }
+        else {
+            curCrypto = "BTC";
+            selectedCurrency = "USD";
+            curCryptoIndex = 0;
 
+            myListView.getSelectionModel().select(0);
+            currencyChoice.setValue("USD");
 
-
-
+        }
 
     }
 
@@ -436,6 +447,19 @@ public class Controller
         else {
             return AUD;
         }
+    }
+
+    public void saveChanges() {
+        System.out.println(curCryptoIndex);
+        System.out.println(curCrypto);
+        System.out.println(graphTabPane.getSelectionModel().getSelectedIndex());
+        System.out.println(selectedCurrency);
+        PersistentData p = new PersistentData(curCrypto, selectedCurrency, graphTabPane.getSelectionModel().getSelectedIndex(), curCryptoIndex);
+    }
+
+    public void exitHandler() {
+        Platform.exit();
+
     }
 
 }

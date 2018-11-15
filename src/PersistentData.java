@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public class PersistentData {
     private String filename;
-    private String crypto;
-    private String currency;
-    private String timePeriod;
-    private int index;
+    private String crypto = null;
+    private String currency = null;
+    private int timePeriod = -1;
+    private int index = -1;
 
     // constructor to load data
     public PersistentData() {
@@ -18,7 +18,7 @@ public class PersistentData {
     }
 
     // constructor to save data
-    public PersistentData(String crypto, String currency, String timePeriod, int index) {
+    public PersistentData(String crypto, String currency, int timePeriod, int index) {
         filename = "data.csv";
         this.crypto = crypto;
         this.currency = currency;
@@ -36,7 +36,7 @@ public class PersistentData {
         return currency;
     }
 
-    public String getTimePeriod() {
+    public int getTimePeriod() {
         return timePeriod;
     }
 
@@ -71,7 +71,7 @@ public class PersistentData {
 
             csvOutput.write(crypto);
             csvOutput.write(currency);
-            csvOutput.write(timePeriod);
+            csvOutput.write(Integer.toString(timePeriod));
             csvOutput.write(Integer.toString(index));
             csvOutput.endRecord();
 
@@ -96,7 +96,7 @@ public class PersistentData {
             while (data.readRecord()) {
                 crypto = data.get("crypto");
                 currency = data.get("currency");
-                timePeriod = data.get("time");
+                timePeriod = Integer.parseInt(data.get("time"));
                 index = Integer.parseInt(data.get("index"));
             }
         } catch (FileNotFoundException exception) {
