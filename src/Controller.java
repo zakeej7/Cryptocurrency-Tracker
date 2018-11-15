@@ -269,7 +269,7 @@ public class Controller
 
     // Updated the news box
     public void updateNews(Crypto temp) {
-        String coinType = "Bitcoin"; //TODO Change to whatever coin is selected here
+        String coinType = curCrypto;  // Current selected Crypto for which we pulls news articles on
         List<NewsData> curNewsList  = temp.relevantArticles(coinType);
         newsList = new ArrayList<>(curNewsList);
         Collections.shuffle(newsList);
