@@ -259,22 +259,38 @@ public class Crypto {
         return null;
     }
 
-    public List<NewsData> relevantArticles() {
+    public List<NewsData> relevantArticles(String Key) {
         // https://newsapi.org/v2/everything?q=cryptocurrency&sortBy=publishedAt&apiKey=f313ec1010e145cab7730034d0c6baf5
 
         String base_url = "https://newsapi.org/v2/everything?";
-        String q        = "q=cryptocurrency";
+        String tempKey  = "q=" + Key;  // This key is used for the specific coin type
+        String baseKey  = "q=cryptocurrency";  // Use this key if coin has less than 5 articles
         String sortBy   = "&sortBy=publishedAt";
         String apiKey   = "&apiKey=f313ec1010e145cab7730034d0c6baf5";
 
         // create the url for the endpoint and call the api using it
-        String endpoint = base_url + q + sortBy + apiKey;
+        String endpoint = base_url + tempKey + sortBy + apiKey;
         String apiResponse = Api.fetch(endpoint);
 
         try {
             JSONArray arr = new JSONObject(apiResponse).getJSONArray("articles");
 
             articles.clear();
+
+            // We don't have enough articles so we add addition general crypto news
+            if(arr.length() < 5) {
+                String endPoint = base_url + baseKey + sortBy + apiKey;
+                String response = Api.fetch(endPoint);
+
+                JSONArray baseArr = new JSONObject(response).getJSONArray("articles");
+
+                // Append additional objects to array with our specific crypto stories
+                for (int i = 0; i < baseArr.length(); i++) {
+                    arr.put(baseArr.getJSONObject(i));
+                }
+            }
+
+            // Get JSON Objects and parse data
             for (int i = 0; i < arr.length(); ++i) {
                 JSONObject obj = arr.getJSONObject(i);
 
