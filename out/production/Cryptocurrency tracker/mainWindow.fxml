@@ -57,7 +57,7 @@
                                     <Font name="Franklin Gothic Medium Italic" size="12.0" />
                                  </font>
                               </Label>
-                              <ComboBox layoutX="458.0" layoutY="14.0" prefWidth="150.0" />
+                              <ComboBox fx:id="currencyOptions" layoutX="458.0" layoutY="14.0" prefWidth="100.0" promptText="Currencies" visibleRowCount="7" AnchorPane.rightAnchor="272.0" />
                                     </children>
                                 </AnchorPane>
                             </items>
