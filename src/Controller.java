@@ -28,13 +28,25 @@ public class Controller
 {
     // Currencies and Cryptos
     private String selectedCurrency;
+    private String curCrypto;
     private Crypto selectedCrypto;
+
+    // Currency Symbols
+    public static final String GBP = "\u00A3";
+    public static final String EUR = "\u20AC";
+    public static final String USD = "$";
+    public static final String AUD = "A$";
+    public static final String JPY = "\u00A5";
+    public static final String SAR = "SR ";
+
 
     private String[] currencies = {"USD", "GBP", "EUR", "AUD", "JPY", "CNY", "SAR"};
 
     private ObservableList<String> cryptos = FXCollections.observableArrayList(
             "BTC - Bitcoin", "LTC - Litecoin", "BCH - Bitcoin Cash", "ETH - Ethereum",
             "XRP - Ripple", "XMR - Monero");
+
+    private ObservableList<String> options = FXCollections.observableArrayList("USD", "GBP", "EUR", "AUD", "JPY", "CNY", "SAR");
 
     private FilteredList<String> filteredList = new FilteredList<>(cryptos);
 
@@ -47,6 +59,9 @@ public class Controller
     @FXML private ListView myListView;
     @FXML private TextField searchCrypto;
 
+    // Currency box
+    @FXML private ChoiceBox currencyChoice;
+
     // Main tabs
     @FXML private JFXTabPane mainTabPane;
     @FXML private JFXTabPane graphTabPane;
@@ -54,7 +69,6 @@ public class Controller
     // Top bar
     @FXML private Label nameTicker;
     @FXML private Label currentPrice;
-    @FXML private Label dayChanges;
     @FXML private Label lastUpdate;
     @FXML private JFXButton refreshButton;
 
@@ -127,8 +141,10 @@ public class Controller
                 if(newValue == null) {
                     return;
                 }
+
+                curCrypto = newValue.substring(0,3);
                 nameTicker.setText(newValue);
-                String crypto = newValue.substring(0,3) + "USD";
+                String crypto = curCrypto + selectedCurrency;
                 selectedCrypto = new Crypto(crypto);
 
                 dayDone = false;
@@ -139,10 +155,42 @@ public class Controller
             }
         });
 
+        currencyChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+            public void changed(ObservableValue<? extends String> ov, String oldValue, String newValue) {
+
+                if(newValue == null) {
+                    return;
+                }
+
+                selectedCurrency = newValue;
+
+                String crypto = curCrypto.substring(0,3) + selectedCurrency;
+                selectedCrypto = new Crypto(crypto);
+
+                dayDone = false;
+                monthDone = false;
+                allTimeDone = false;
+
+                updateApplication();
+            }
+        });
+
+        curCrypto = "BTC";
+        selectedCurrency = "USD";
+
+
         myListView.setItems(filteredList);
-        myListView.getSelectionModel().select(3);
-        myListView.getFocusModel().focus(3);
-        myListView.scrollTo(3);
+        myListView.getSelectionModel().select(0);
+
+        currencyChoice.setItems(options);
+        currencyChoice.setValue("USD");
+
+
+
+
+
+
 
 
     }
@@ -178,14 +226,13 @@ public class Controller
         volume.setText(Double.toString(volumeVal));
         bid.setText(Double.toString(bidVal));
         ask.setText(Double.toString(askVal));
-        currentPrice.setText("$" + Double.toString(current));
         if(valChange < 0) {
-            dayChanges.setTextFill(Paint.valueOf("Red"));
-            dayChanges.setText(Double.toString(valChange) + " (" + Double.toString(percentChange) + " %)");
+            currentPrice.setTextFill(Paint.valueOf("Red"));
+            currentPrice.setText(getCurrencySymbol() + Double.toString(current) + "  " + Double.toString(valChange) + " (" + Double.toString(percentChange) + " %)");
         }
         else {
-            dayChanges.setTextFill(Paint.valueOf("Green"));
-            dayChanges.setText("+" + Double.toString(valChange) + " (+" + Double.toString(percentChange) + " %)");
+            currentPrice.setTextFill(Paint.valueOf("Green"));
+            currentPrice.setText(getCurrencySymbol() + Double.toString(current) + "  +" + Double.toString(valChange) + " (+" + Double.toString(percentChange) + " %)");
         }
 
         lastUpdate.setText("As of " +  dtf.format(now));
@@ -368,4 +415,26 @@ public class Controller
         cur.setCreateSymbols(false);
         cur.setLegendVisible(false);
     }
+
+    private String getCurrencySymbol() {
+        if(selectedCurrency.equals("USD")) {
+            return USD;
+        }
+        else if(selectedCurrency.equals("JPY") || selectedCurrency.equals("CNY")) {
+            return JPY;
+        }
+        else if(selectedCurrency.equals("EUR")) {
+            return EUR;
+        }
+        else if(selectedCurrency.equals("GBP")) {
+            return GBP;
+        }
+        else if(selectedCurrency.equals("SAR")) {
+            return SAR;
+        }
+        else {
+            return AUD;
+        }
+    }
+
 }

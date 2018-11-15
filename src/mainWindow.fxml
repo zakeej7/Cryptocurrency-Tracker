@@ -47,17 +47,17 @@
                                     <Font name="Arial" size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="dayChanges" layoutX="126.0" layoutY="13.0" text="+6.78 (+0.56 %)">
-                                 <font>
-                                    <Font name="Arial" size="24.0" />
-                                 </font>
-                              </Label>
                               <Label fx:id="lastUpdate" layoutX="651.0" layoutY="20.0" text="As of 4:21pm 10/9/18" AnchorPane.rightAnchor="111.0">
                                  <font>
                                     <Font name="Franklin Gothic Medium Italic" size="12.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="currencyOptions" layoutX="458.0" layoutY="14.0" prefWidth="100.0" promptText="Currencies" visibleRowCount="7" AnchorPane.rightAnchor="272.0" />
+                              <ChoiceBox fx:id="currencyChoice" layoutX="500.0" layoutY="14.0" prefWidth="75.0" AnchorPane.rightAnchor="305.0" />
+                              <Text layoutX="423.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Currency:" AnchorPane.rightAnchor="387.6484375">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </Text>
                                     </children>
                                 </AnchorPane>
                             </items>
