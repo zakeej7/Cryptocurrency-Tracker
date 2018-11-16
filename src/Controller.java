@@ -8,14 +8,19 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
+import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -34,12 +39,12 @@ public class Controller
     private int curCryptoIndex;
 
     // Currency Symbols
-    public static final String GBP = "\u00A3";
-    public static final String EUR = "\u20AC";
-    public static final String USD = "$";
-    public static final String AUD = "A$";
-    public static final String JPY = "\u00A5";
-    public static final String SAR = "SR ";
+    private static final String GBP = "\u00A3";
+    private static final String EUR = "\u20AC";
+    private static final String USD = "$";
+    private static final String AUD = "A$";
+    private static final String JPY = "\u00A5";
+    private static final String SAR = "SR ";
 
 
     private String[] currencies = {"USD", "GBP", "EUR", "AUD", "JPY", "CNY", "SAR"};
@@ -234,10 +239,10 @@ public class Controller
         dailyHigh.setText(Double.toString(high));
         dailyLow.setText(Double.toString(low));
         last.setText(Double.toString(lastVal));
-        volume.setText(Double.toString(volumeVal));
+        volume.setText(df.format(volumeVal));
         bid.setText(Double.toString(bidVal));
         ask.setText(Double.toString(askVal));
-        if(valChange < 0) {
+        if(valChange <= 0) {
             currentPrice.setTextFill(Paint.valueOf("Red"));
             currentPrice.setText(getCurrencySymbol() + Double.toString(current) + "  " + Double.toString(valChange) + " (" + Double.toString(percentChange) + " %)");
         }
@@ -281,8 +286,17 @@ public class Controller
     // Updated the news box
     public void updateNews(Crypto temp) {
         String coinType = curCrypto;  // Current selected Crypto for which we pulls news articles on
-        List<NewsData> curNewsList  = temp.relevantArticles(coinType);
-        newsList = new ArrayList<>(curNewsList);
+        String coinName = cryptos.get(curCryptoIndex).replaceAll("\\s","").split("-")[1];
+
+        if(coinType.equals("ZEC") || coinType.equals("LTC") || coinType.equals("ETH")) {
+            List<NewsData> nameList = temp.relevantArticles(coinName);
+            newsList = new ArrayList<>(nameList);
+        }
+        else {
+            List<NewsData> typeList  = temp.relevantArticles(coinType);
+            newsList = new ArrayList<>(typeList);
+        }
+
         Collections.shuffle(newsList);
 
         news1.setText(newsList.get(0).getTitle());
@@ -300,7 +314,7 @@ public class Controller
     }
 
     // Handles click for opening article in browser
-    public boolean openNewsArticle(ActionEvent event) throws MalformedURLException {
+    public void openNewsArticle(ActionEvent event) throws MalformedURLException {
         Hyperlink h = (Hyperlink) event.getSource();
         String id = h.getId();
         URL url;
@@ -325,12 +339,22 @@ public class Controller
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
                 desktop.browse(url.toURI());
-                return true;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return false;
+
+//        Parent root;
+//        try {
+//            root = FXMLLoader.load(getClass().getClassLoader().getResource("mainWindow.fxml"));
+//            Stage stage = new Stage();
+//            stage.setTitle("My New Stage Title");
+//            stage.setScene(new Scene(root, 450, 450));
+//            stage.show();
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -388,8 +412,8 @@ public class Controller
             dayX.setLowerBound(0);
             dayX.setUpperBound(historicalData.size() + 20);
             dayX.setTickUnit((historicalData.size() + 20)/25.0);
-            dayFirstLabel.setText(historicalData.get(0).getTime());
-            daySecondLabel.setText(historicalData.get(historicalData.size() - 1).getTime());
+            dayFirstLabel.setText("From: " + historicalData.get(0).getTime());
+            daySecondLabel.setText("To: " + historicalData.get(historicalData.size() - 1).getTime());
             dayDone = true;
         }
         else if(tabSelected == 1) {
@@ -399,8 +423,8 @@ public class Controller
             monthX.setLowerBound(0);
             monthX.setUpperBound(historicalData.size() + 20);
             monthX.setTickUnit((historicalData.size() + 20)/25.0);
-            monthFirstLabel.setText(historicalData.get(0).getTime());
-            monthSecondLabel.setText(historicalData.get(historicalData.size() - 1).getTime());
+            monthFirstLabel.setText("From: " + historicalData.get(0).getTime());
+            monthSecondLabel.setText("To: " + historicalData.get(historicalData.size() - 1).getTime());
             monthDone = true;
 
         }
@@ -411,8 +435,8 @@ public class Controller
             allTimeX.setLowerBound(0);
             allTimeX.setUpperBound(historicalData.size() + 20);
             allTimeX.setTickUnit((historicalData.size() + 20)/25.0);
-            allTimeFirstLabel.setText(historicalData.get(0).getTime());
-            allTimeSecondLabel.setText(historicalData.get(historicalData.size() - 1).getTime());
+            allTimeFirstLabel.setText("From: " + historicalData.get(0).getTime());
+            allTimeSecondLabel.setText("To: " + historicalData.get(historicalData.size() - 1).getTime());
             allTimeDone = true;
         }
 
@@ -450,10 +474,6 @@ public class Controller
     }
 
     public void saveChanges() {
-        System.out.println(curCryptoIndex);
-        System.out.println(curCrypto);
-        System.out.println(graphTabPane.getSelectionModel().getSelectedIndex());
-        System.out.println(selectedCurrency);
         PersistentData p = new PersistentData(curCrypto, selectedCurrency, graphTabPane.getSelectionModel().getSelectedIndex(), curCryptoIndex);
     }
 

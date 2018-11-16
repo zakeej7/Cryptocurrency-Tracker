@@ -14,7 +14,9 @@ public class CryptoTracker extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainWindow.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Crypto Tracker");
-        primaryStage.setScene(new Scene(root, 1200, 700));
+        Scene s = new  Scene(root, 1200, 700);
+        primaryStage.setScene(s);
+        s.getStylesheets().add("global.css");
         Controller c = loader.getController();
         primaryStage.show();
 

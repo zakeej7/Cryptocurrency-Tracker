@@ -1,0 +1,87 @@
+* {
+    -fx-primary : #00b0f0;
+    -fx-secondary : #92b7d9;
+    -fx-primarytext : #ffffff;
+    -fx-blue: #c4edfc;
+    -fx-red: #FF0000;
+    -fx-color-1:#1976D2;
+}
+
+
+
+/*Main Screen CSS Styling starts here*/
+
+/*TabPane styling*/
+.tab{
+    -fx-background-color: -fx-primary;
+    -fx-max-width: 200;
+}
+
+.tab-header-background{
+    -fx-background-color: -fx-primary;
+}
+
+.tab-label{
+    -fx-text-fill: -fx-primarytext;
+    -fx-font-size: 14pt;
+}
+
+
+.tab-main{
+    -fx-pref-height : 60;
+    -fx-max-height : 60;
+}
+
+
+/*Menu bar Styling*/
+.menu-bar{
+    -fx-base : -fx-primary;
+    -fx-background-color: -fx-primary;
+}
+
+/*Text styling*/
+.main-text
+{
+    -fx-fill: -fx-secondary;
+    -fx-font-size: 14pt;
+    -fx-text-alignment: center;
+}
+
+/*Split Pane Styling*/
+
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 0.15em 0 0.15em;
+    -fx-background-color: -fx-primary;
+}
+
+/* Titled Pane Styling */
+
+.titled-pane {
+    -fx-text-fill: -fx-primarytext;
+    -fx-font-size: 14pt;
+}
+
+.titled-pane > .title {
+    -fx-background-color: -fx-primary, -fx-primary, -fx-primary;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em;
+}
+
+.titled-pane > .title > .arrow-button .arrow {
+    -fx-background-color: -fx-primarytext, -fx-primarytext;
+}
+
+/* Listview Styling */
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: white;
+}
+
+/* ChoiceBox Styling */
+
+.choice-box .menu-item:focused {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-primarytext;
+}
